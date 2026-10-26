@@ -79,6 +79,7 @@ a:hover { color: var(--blue-dark); }
 .hero-copy { position: absolute; z-index: 2; left: clamp(20px, 9vw, 140px); bottom: clamp(90px, 16vh, 160px); pointer-events: none; }
 .hero h1 { font-size: clamp(46px, 7.5vw, 92px); line-height: 1.12; font-weight: 700; letter-spacing: -0.02em; }
 .hero h1 .dim { color: rgba(255,255,255,.55); }
+.h1-eyebrow { display: block; margin-bottom: 18px; font-size: clamp(14px, 1.3vw, 17px); font-weight: 600; letter-spacing: 0; color: rgba(255,255,255,.85); }
 .hero-dots { position: absolute; z-index: 3; left: clamp(20px, 9vw, 140px); bottom: calc(clamp(90px, 16vh, 160px) - 44px); display: flex; gap: 6px; }
 .hero-dots button { width: 10px; height: 4px; border: 0; padding: 0; border-radius: 999px; background: rgba(255,255,255,.45); cursor: pointer; transition: all .4s; }
 .hero-dots button[aria-current="true"] { width: 28px; background: #fff; }
@@ -88,7 +89,8 @@ a:hover { color: var(--blue-dark); }
 
 /* Statement */
 .statement { display: flex; flex-direction: column; justify-content: center; background: var(--navy); padding: clamp(120px, 18vw, 220px) 24px; }
-.statement p { text-align: center; color: #fff; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.6; font-weight: 600; }
+.statement h2 { text-align: center; color: #fff; font-size: clamp(22px, 2.6vw, 30px); line-height: 1.6; font-weight: 600; }
+.statement-sub { margin-top: 22px; text-align: center; color: rgba(255,255,255,.55); font-size: 15px; line-height: 1.7; }
 
 /* Phone mockup */
 .phone { width: 250px; height: 500px; border-radius: 40px; border: 9px solid var(--ink); background: #f3f5f9; overflow: hidden; box-shadow: 0 30px 60px rgba(20,30,60,.18); flex: none; position: relative; }
@@ -123,7 +125,12 @@ a:hover { color: var(--blue-dark); }
 
 /* Map */
 .map-card { width: min(100%, 460px); display: flex; flex-direction: column; gap: 12px; padding: 12px; border-radius: 22px; background: #fff; border: 1px solid #e6ebf3; box-shadow: 0 20px 50px rgba(20,40,90,.08); }
-.map-frame { aspect-ratio: 27 / 20; border-radius: 14px; overflow: hidden; background: #f3f6fb; }
+.map-frame { position: relative; aspect-ratio: 27 / 20; border-radius: 14px; overflow: hidden; background: #f3f6fb; }
+/* 관리 중 지역 표시 — 파란 원 위로 퍼지는 빛 */
+.map-pulse { position: absolute; z-index: 1; width: 7%; aspect-ratio: 1; border-radius: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.map-pulse::before, .map-pulse::after { content: ""; position: absolute; inset: 0; border-radius: 50%; background: rgba(31,123,255,.45); box-shadow: 0 0 18px 4px rgba(31,123,255,.55); animation: map-pulse 2.4s ease-out infinite; animation-delay: var(--d, 0s); }
+.map-pulse::after { animation-delay: calc(var(--d, 0s) - 1.2s); }
+@keyframes map-pulse { 0% { transform: scale(1); opacity: .85; } 100% { transform: scale(3.2); opacity: 0; } }
 .map-frame img { width: 100%; height: 100%; object-fit: contain; }
 .map-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 2px 6px 4px; font-size: 13px; color: var(--muted); }
 .map-legend span { display: flex; align-items: center; gap: 6px; }
@@ -203,4 +210,5 @@ a:hover { color: var(--blue-dark); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .hero-img { transition: opacity .6s ease; transform: none !important; }
+  .map-pulse::before, .map-pulse::after { animation: none; opacity: .35; transform: scale(1.6); }
 }
