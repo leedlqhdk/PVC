@@ -1,4 +1,17 @@
 /* PVC 평택빌라클린 — Nocturne 디자인 시스템 기반, 남색/파랑 테마 */
+/* 나눔스퀘어라운드 (NAVER, SIL Open Font License 1.1) */
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("/fonts/NanumSquareRoundR.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("/fonts/NanumSquareRoundB.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
 :root {
   --color-bg: #0a1838;
   --color-surface: #102452;
@@ -19,7 +32,7 @@
   --shadow-md: 0 0 0 1px #24407a, 0 10px 28px rgba(0, 8, 30, .5);
   --radius-md: 8px;
   --radius-lg: 14px;
-  --font: "Inter", "Noto Sans KR", system-ui, -apple-system, sans-serif;
+  --font: "NanumSquareRound", system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
   --gutter: clamp(20px, 5vw, 64px);
 }
 
@@ -31,12 +44,12 @@ body {
   color: var(--color-text);
   font-family: var(--font);
   font-size: 15px;
-  line-height: 1.55;
+  line-height: 1.6;
   word-break: keep-all;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 { font-weight: 500; line-height: 1.15; letter-spacing: -0.015em; margin: 0; }
+h1, h2, h3 { font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; margin: 0; }
 p { margin: 0; }
 img { display: block; max-width: 100%; }
 a { color: var(--color-accent-300); text-underline-offset: 3px; }
@@ -57,7 +70,7 @@ a:hover { color: #cfe8ff; }
 /* Buttons */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font: inherit; font-weight: 500; font-size: 14px; line-height: 1.2;
+  font: inherit; font-weight: 700; font-size: 14px; line-height: 1.2;
   color: var(--color-text); text-decoration: none; cursor: pointer;
   background: transparent; border: 1px solid transparent; border-radius: var(--radius-md);
   padding: 6px 10px;
@@ -90,7 +103,7 @@ a:hover { color: #cfe8ff; }
 .brand:hover { color: var(--color-text); }
 .brand-logo { height: clamp(44px, 6vw, 56px); width: auto; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
-.brand-name { font-size: clamp(18px, 2vw, 22px); font-weight: 600; }
+.brand-name { font-size: clamp(18px, 2vw, 22px); font-weight: 700; }
 .brand-sub { font-size: 12.5px; color: var(--color-neutral-400); }
 
 .hero-row { display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 56px); align-items: center; }
@@ -106,9 +119,9 @@ a:hover { color: #cfe8ff; }
   width: 52px; height: 52px; flex: none; border-radius: 50%;
   display: grid; place-items: center;
   background: var(--color-accent-800); color: var(--color-accent-100);
-  font-size: 20px; font-weight: 500; box-shadow: 0 0 0 1px var(--color-accent-700);
+  font-size: 20px; font-weight: 700; box-shadow: 0 0 0 1px var(--color-accent-700);
 }
-.owner-name { font-size: 14px; font-weight: 500; }
+.owner-name { font-size: 14px; font-weight: 700; }
 .owner-quote { font-size: 13px; color: var(--color-neutral-400); }
 
 .area-card { flex: 1 1 380px; min-width: 0; padding: 18px; gap: 14px; }
@@ -129,7 +142,7 @@ a:hover { color: #cfe8ff; }
 .section { padding: clamp(56px, 8vw, 96px) var(--gutter); }
 .stack { display: flex; flex-direction: column; gap: 32px; }
 .section-head { display: flex; flex-direction: column; gap: 6px; }
-.eyebrow { font-size: 13px; font-weight: 500; letter-spacing: .08em; color: var(--color-accent-300); }
+.eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .08em; color: var(--color-accent-300); }
 .section-head h2 { font-size: clamp(26px, 3.2vw, 34px); }
 .how-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
 .how { display: flex; flex-direction: column; gap: 10px; }
