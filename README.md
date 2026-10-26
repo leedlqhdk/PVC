@@ -10,6 +10,7 @@
 - `site-config.js` — 전화번호·대표자명·카카오톡 URL·사업자번호·서비스 지역 설정
 - `assets/pvc-logo.png` — PVC 로고(흰색)
 - `assets/pyeongtaek-map.svg` — 평택시 서비스 지역 지도
+- `assets/owner-lee-youngmin.webp` — 대표 이영민 사진(흰 배경)
 - `assets/pvc-stair-hero.webp` — 공유(OG) 미리보기용 연출 이미지
 - `robots.txt`, `sitemap.xml` — `www.pvclean.kr` 검색 크롤링 설정
 - `favicon.svg` — PVC 심볼
