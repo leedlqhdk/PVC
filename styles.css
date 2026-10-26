@@ -266,6 +266,11 @@ a:hover { color: var(--blue-dark); }
   .btn { align-self: stretch; }
   .cta-row { flex-direction: column; gap: 10px; }
   .phone { align-self: center; zoom: .64; }
+  /* 카톡 문의: 글은 왼쪽, 휴대폰 그림은 오른쪽 */
+  .row-phone { flex-direction: row; align-items: center; gap: 14px; }
+  .row-phone > .copy { flex: 1 1 0; min-width: 0; }
+  .row-phone .copy h2 { font-size: clamp(22px, 6.4vw, 28px); }
+  .row-phone .phone { order: 1; flex: none; zoom: .52; }
   .service-list { width: 100%; gap: 10px; }
   .service-blob { display: none; }
   .service { padding: 10px; gap: 12px; }
