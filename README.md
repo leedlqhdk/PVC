@@ -14,7 +14,7 @@
 - `assets/pvc-stair-hero.webp` — 공유(OG) 미리보기용 연출 이미지
 - `robots.txt`, `sitemap.xml` — `www.pvclean.kr` 검색 크롤링 설정
 - `favicon.svg` — PVC 심볼
-- `fonts/` — 나눔스퀘어라운드 웹폰트(NAVER, SIL Open Font License 1.1, 상업적 사용 무료)
+- `fonts/` — 나눔스퀘어 웹폰트(NAVER, SIL Open Font License 1.1, 상업적 사용 무료)
 - `vercel.json` — 정적 사이트 URL 규칙
 
 ## 사업 정보 설정

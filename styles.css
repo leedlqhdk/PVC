@@ -1,17 +1,24 @@
 /* PVC 평택빌라클린 — Nocturne 디자인 시스템 기반, 남색/파랑 테마 */
-/* 나눔스퀘어라운드 (NAVER, SIL Open Font License 1.1) */
+/* 나눔스퀘어 (NAVER, SIL Open Font License 1.1) */
 @font-face {
-  font-family: "NanumSquareRound";
-  src: url("/fonts/NanumSquareRoundR.woff2") format("woff2");
+  font-family: "NanumSquare";
+  src: url("/fonts/NanumSquareR.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
 @font-face {
-  font-family: "NanumSquareRound";
-  src: url("/fonts/NanumSquareRoundB.woff2") format("woff2");
+  font-family: "NanumSquare";
+  src: url("/fonts/NanumSquareB.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
+@font-face {
+  font-family: "NanumSquare";
+  src: url("/fonts/NanumSquareEB.woff2") format("woff2");
+  font-weight: 800;
+  font-display: swap;
+}
+
 :root {
   --color-bg: #0a1838;
   --color-surface: #102452;
@@ -32,7 +39,7 @@
   --shadow-md: 0 0 0 1px #24407a, 0 10px 28px rgba(0, 8, 30, .5);
   --radius-md: 8px;
   --radius-lg: 14px;
-  --font: "NanumSquareRound", system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
+  --font: "NanumSquare", system-ui, -apple-system, "Apple SD Gothic Neo", sans-serif;
   --gutter: clamp(20px, 5vw, 64px);
 }
 
@@ -49,7 +56,7 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-h1, h2, h3 { font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; margin: 0; }
+h1, h2, h3 { font-weight: 800; line-height: 1.2; letter-spacing: -0.01em; margin: 0; }
 p { margin: 0; }
 img { display: block; max-width: 100%; }
 a { color: var(--color-accent-300); text-underline-offset: 3px; }
@@ -103,7 +110,7 @@ a:hover { color: #cfe8ff; }
 .brand:hover { color: var(--color-text); }
 .brand-logo { height: clamp(44px, 6vw, 56px); width: auto; }
 .brand-text { display: flex; flex-direction: column; line-height: 1.15; }
-.brand-name { font-size: clamp(18px, 2vw, 22px); font-weight: 700; }
+.brand-name { font-size: clamp(18px, 2vw, 22px); font-weight: 800; }
 .brand-sub { font-size: 12.5px; color: var(--color-neutral-400); }
 
 .hero-row { display: flex; flex-wrap: wrap; gap: clamp(32px, 5vw, 56px); align-items: center; }
@@ -116,7 +123,7 @@ a:hover { color: #cfe8ff; }
   border-top: 1px solid var(--color-divider); max-width: 460px;
 }
 .owner-avatar {
-  width: 60px; height: 60px; flex: none; border-radius: 50%;
+  width: 64px; height: 82px; flex: none; border-radius: 6px;
   object-fit: cover;
   background: #fff; box-shadow: 0 0 0 2px var(--color-accent-700);
 }
