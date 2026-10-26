@@ -140,7 +140,7 @@
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (finePointer) {
     window.addEventListener('wheel', (e) => {
-      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX) || document.querySelector('dialog[open]')) return;
       e.preventDefault();
       if (animating || performance.now() < lockUntil || Math.abs(e.deltaY) < 4) {
         if (!animating) lockUntil = Math.max(lockUntil, performance.now() + 120);
@@ -149,6 +149,7 @@
       scrollToY(pageTarget(e.deltaY > 0 ? 1 : -1));
     }, { passive: false });
     window.addEventListener('keydown', (e) => {
+      if (document.querySelector('dialog[open]')) return;
       if (e.target.closest && e.target.closest('input, textarea, select, summary, [contenteditable]')) return;
       const down = ['PageDown', 'ArrowDown', ' '].includes(e.key) && !e.shiftKey;
       const up = ['PageUp', 'ArrowUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
@@ -180,6 +181,21 @@
       el.style.transitionDelay = `${(k % 3) * 0.12}s`;
       io.observe(el);
     });
+  }
+
+  // 자격증 크게 보기
+  const certDialog = document.getElementById('cert-dialog');
+  if (certDialog && typeof certDialog.showModal === 'function') {
+    const certImg = document.getElementById('cert-dialog-img');
+    document.querySelectorAll('[data-cert]').forEach((btn) => btn.addEventListener('click', () => {
+      certImg.src = btn.dataset.cert;
+      certImg.alt = btn.dataset.certTitle || '';
+      certDialog.showModal();
+    }));
+    document.getElementById('cert-close').addEventListener('click', () => certDialog.close());
+    certDialog.addEventListener('click', (e) => { if (e.target === certDialog) certDialog.close(); });
+  } else {
+    document.querySelectorAll('[data-cert]').forEach((btn) => btn.addEventListener('click', () => window.open(btn.dataset.cert, '_blank')));
   }
 
   // 상단 로고 — 아래 섹션 배경에 맞춰 색 전환, 마지막 견적 문의 섹션에서는 숨김

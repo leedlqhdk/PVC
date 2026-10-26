@@ -13,6 +13,7 @@ v2 풀스크린 랜딩 디자인(홈 → 소개 → 문의 안내 → 관리 방
 - `assets/pvc-logo.png`, `assets/pvc-logo-color.webp` — PVC 로고(흰색 / 컬러)
 - `assets/pyeongtaek-map-light.svg` — 평택시 서비스 지역 지도
 - `assets/owner-lee-youngmin.webp` — 대표 이영민 사진
+- `assets/cert-*.webp` — 대표 자격증 사진(생년월일·자격번호 가림, 민간자격 등록번호는 표시)
 - `assets/hero-1.webp` ~ `assets/hero-4.webp` — 첫 화면 사진(계단 · 엘리베이터 홀 · 복도 · 현관)
 - `fonts/` — Pretendard 웹폰트(SIL Open Font License 1.1)
 - `robots.txt`, `sitemap.xml`, `favicon.ico`, `favicon-*.png`, `apple-touch-icon.png`, `vercel.json`
