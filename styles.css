@@ -72,12 +72,12 @@ a:hover { color: var(--blue-dark); }
 .hero-img.is-on { opacity: 1; transform: scale(1.06); }
 .hero-shade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(8,16,36,.78) 0%, rgba(8,16,36,.35) 55%, rgba(8,16,36,.15) 100%); }
 .hero-header { position: absolute; top: 0; left: 0; right: 0; z-index: 3; padding: clamp(18px, 3vw, 28px) var(--gutter); display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.brand { display: flex; align-items: center; gap: 10px; color: #fff; }
+.brand { display: flex; align-items: center; gap: 14px; color: #fff; }
 .brand:hover { color: #fff; }
-.brand img { height: clamp(36px, 4.5vw, 44px); width: auto; }
-.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
-.brand-name { font-size: 18px; font-weight: 700; }
-.brand-sub { font-size: 12px; opacity: .75; }
+.brand img { height: clamp(48px, 6vw, 64px); width: auto; }
+.brand-text { display: flex; flex-direction: column; gap: 2px; line-height: 1.15; }
+.brand-name { font-size: clamp(22px, 2.4vw, 28px); font-weight: 700; letter-spacing: -0.01em; }
+.brand-sub { font-size: clamp(14px, 1.3vw, 16px); font-weight: 600; opacity: .8; }
 .pill-glass { display: flex; align-items: center; gap: 6px; padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,.14); color: #fff; font-size: 14px; font-weight: 600; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .pill-glass:hover { color: #fff; background: rgba(255,255,255,.22); }
 .hero-copy { position: absolute; z-index: 2; left: clamp(20px, 9vw, 140px); bottom: clamp(90px, 16vh, 160px); pointer-events: none; }
