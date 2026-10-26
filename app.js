@@ -91,6 +91,19 @@
     render();
   }
 
+  // 스크롤할 때 섹션 내용이 부드럽게 나타남
+  const revealTargets = document.querySelectorAll('.statement h2, .statement-sub, .row > *, .owner-sec > *:not(.accent-bar), .faq-inner > *');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); } });
+    }, { threshold: 0.15, rootMargin: '0px 0px -8% 0px' });
+    revealTargets.forEach((el, k) => {
+      el.classList.add('reveal');
+      el.style.transitionDelay = `${(k % 3) * 0.12}s`;
+      io.observe(el);
+    });
+  }
+
   // 오른쪽 섹션 이동 점
   const dotNav = document.getElementById('section-dots');
   const sections = Array.from(document.querySelectorAll('main > section')).filter((s) => !s.hidden);
