@@ -19,7 +19,12 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-snap-type: y proximity; scroll-behavior: smooth; background: var(--navy); }
+html { background: var(--navy); }
+/* 터치 기기: 한 번 넘기면 한 화면씩 (데스크톱은 app.js에서 부드럽게 이동) */
+@media (hover: none) and (pointer: coarse) {
+  html { scroll-snap-type: y mandatory; }
+  .snap { scroll-snap-stop: always; }
+}
 body { margin: 0; background: var(--navy); color: var(--ink); font-family: var(--font); word-break: keep-all; -webkit-font-smoothing: antialiased; }
 h1, h2, h3, p { margin: 0; }
 img { display: block; max-width: 100%; }
@@ -213,7 +218,6 @@ a:hover { color: var(--blue-dark); }
   .hero-down { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
   .hero-img { transition: opacity .6s ease; transform: none !important; }
   .map-pulse::before, .map-pulse::after { animation: none; opacity: .35; transform: scale(1.6); }
   .reveal { opacity: 1; transform: none; transition: none; }

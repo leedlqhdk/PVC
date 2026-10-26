@@ -91,6 +91,80 @@
     render();
   }
 
+  // 한 번 스크롤하면 한 화면씩 부드럽게 이동 (마우스·트랙패드·키보드)
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pages = () => Array.from(document.querySelectorAll('main > section, main > footer')).filter((el) => !el.hidden);
+  const maxY = () => document.documentElement.scrollHeight - window.innerHeight;
+  let animating = false;
+  let lockUntil = 0;
+  function scrollToY(target) {
+    target = Math.max(0, Math.min(maxY(), Math.round(target)));
+    const start = window.scrollY;
+    const dist = target - start;
+    if (Math.abs(dist) < 2) return;
+    if (reduceMotion) { window.scrollTo(0, target); return; }
+    const duration = Math.min(1100, 650 + Math.abs(dist) * 0.25);
+    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const t0 = performance.now();
+    animating = true;
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / duration);
+      window.scrollTo(0, start + dist * ease(t));
+      if (t < 1) requestAnimationFrame(step);
+      else { animating = false; lockUntil = performance.now() + 450; }
+    };
+    requestAnimationFrame(step);
+  }
+  function pageTarget(dir) {
+    const y = window.scrollY;
+    const vh = window.innerHeight;
+    const list = pages();
+    if (dir > 0) {
+      const current = list.filter((el) => el.offsetTop <= y + 2).pop();
+      // 화면보다 긴 섹션은 섹션 안에서 한 화면씩 내려감
+      if (current && current.offsetTop + current.offsetHeight > y + vh + 2) {
+        return Math.min(current.offsetTop + current.offsetHeight - vh, y + vh * 0.9);
+      }
+      const next = list.find((el) => el.offsetTop > y + 2);
+      return next ? next.offsetTop : maxY();
+    }
+    const prev = list.filter((el) => el.offsetTop < y - 2).pop();
+    if (!prev) return 0;
+    if (prev.offsetTop + prev.offsetHeight > y - 2 && y - prev.offsetTop > vh) return y - vh * 0.9;
+    return prev.offsetTop;
+  }
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (finePointer) {
+    window.addEventListener('wheel', (e) => {
+      if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+      e.preventDefault();
+      if (animating || performance.now() < lockUntil || Math.abs(e.deltaY) < 4) {
+        if (!animating) lockUntil = Math.max(lockUntil, performance.now() + 120);
+        return;
+      }
+      scrollToY(pageTarget(e.deltaY > 0 ? 1 : -1));
+    }, { passive: false });
+    window.addEventListener('keydown', (e) => {
+      if (e.target.closest && e.target.closest('input, textarea, select, summary, [contenteditable]')) return;
+      const down = ['PageDown', 'ArrowDown', ' '].includes(e.key) && !e.shiftKey;
+      const up = ['PageUp', 'ArrowUp'].includes(e.key) || (e.key === ' ' && e.shiftKey);
+      if (e.key === 'Home') { e.preventDefault(); scrollToY(0); return; }
+      if (e.key === 'End') { e.preventDefault(); scrollToY(maxY()); return; }
+      if (!down && !up) return;
+      e.preventDefault();
+      if (!animating) scrollToY(pageTarget(down ? 1 : -1));
+    });
+  }
+  // 페이지 안 링크(#contact 등)도 같은 방식으로 이동
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target || link.href.startsWith('sms:') || link.href.startsWith('tel:')) return;
+      e.preventDefault();
+      scrollToY(target.offsetTop);
+    });
+  });
+
   // 스크롤할 때 섹션 내용이 부드럽게 나타남
   const revealTargets = document.querySelectorAll('.statement h2, .statement-sub, .row > *, .owner-sec > *:not(.accent-bar), .faq-inner > *');
   if ('IntersectionObserver' in window) {
@@ -114,7 +188,7 @@
       b.setAttribute('aria-label', sec.dataset.label || '');
       b.innerHTML = '<span class="dot-mark"></span><span class="dot-tip"></span>';
       b.querySelector('.dot-tip').textContent = sec.dataset.label || '';
-      b.addEventListener('click', () => sec.scrollIntoView({ behavior: 'smooth' }));
+      b.addEventListener('click', () => scrollToY(sec.offsetTop));
       dotNav.appendChild(b);
       return b;
     });
