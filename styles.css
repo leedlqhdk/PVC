@@ -256,6 +256,28 @@ a:hover { color: var(--blue-dark); }
   .hero-down { display: none; }
   .footer-inner { grid-template-columns: 1fr; gap: 28px; }
   .footer-links { flex-direction: row; flex-wrap: wrap; gap: 10px 18px; }
+
+  /* 모바일: 제목·설명이 항상 먼저, 그림·카드는 아래로 — 한 화면 안에 들어오게 */
+  .block { padding: 92px 20px 56px; }
+  .row, .row-rev { flex-direction: column; flex-wrap: nowrap; align-items: stretch; gap: 26px; }
+  .row > .copy { order: -1; max-width: none; gap: 12px; }
+  .copy h2, .faq h2 { font-size: 28px; }
+  .copy p { font-size: 14px; }
+  .btn { align-self: stretch; }
+  .cta-row { flex-direction: column; gap: 10px; }
+  .phone { align-self: center; zoom: .64; }
+  .service-list { width: 100%; gap: 10px; }
+  .service-blob { display: none; }
+  .service { padding: 10px; gap: 12px; }
+  .service-ic { width: 56px; height: 56px; }
+  .service-ic .icon { width: 26px; height: 26px; }
+  .map-card { width: 100%; }
+  .faq-inner { gap: 10px; }
+  .faq h2 { margin-bottom: 6px; }
+  .faq details { padding: 13px 16px; }
+  .faq summary { font-size: 15px; }
+  .faq details p { font-size: 14px; }
+  .owner-sec { padding: 92px 20px 56px; gap: 18px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-img { transition: opacity .6s ease; transform: none !important; }
