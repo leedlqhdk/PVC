@@ -15,7 +15,7 @@ v2 풀스크린 랜딩 디자인(홈 → 소개 → 문의 안내 → 관리 방
 - `assets/owner-lee-youngmin.webp` — 대표 이영민 사진
 - `assets/hero-1.webp` ~ `assets/hero-4.webp` — 첫 화면 사진(계단 · 엘리베이터 홀 · 복도 · 현관)
 - `fonts/` — Pretendard 웹폰트(SIL Open Font License 1.1)
-- `robots.txt`, `sitemap.xml`, `favicon.svg`, `vercel.json`
+- `robots.txt`, `sitemap.xml`, `favicon.ico`, `favicon-*.png`, `apple-touch-icon.png`, `vercel.json`
 
 ## 사업 정보 설정
 
