@@ -4,34 +4,26 @@
 
 ## 사이트 구성
 
-- `index.html` — 사이트 콘텐츠(히어로·서비스 지역 지도·약속·관리 방식·견적 문의), 검색·공유 메타데이터
-- `styles.css` — Nocturne 디자인 시스템 기반 남색/파랑 테마와 반응형 스타일
-- `app.js` — `site-config.js` 값으로 전화·견적 버튼, 대표자명, 서비스 지역 문구를 채움
-- `site-config.js` — 전화번호·대표자명·카카오톡 URL·사업자번호·서비스 지역 설정
-- `assets/pvc-logo.png` — PVC 로고(흰색)
-- `assets/pyeongtaek-map.svg` — 평택시 서비스 지역 지도
-- `assets/owner-lee-youngmin.webp` — 대표 이영민 사진(흰 배경)
-- `assets/pvc-stair-hero.webp` — 공유(OG) 미리보기용 연출 이미지
-- `robots.txt`, `sitemap.xml` — `www.pvclean.kr` 검색 크롤링 설정
-- `favicon.svg` — PVC 심볼
-- `fonts/` — 나눔스퀘어 웹폰트(NAVER, SIL Open Font License 1.1, 상업적 사용 무료)
-- `vercel.json` — 정적 사이트 URL 규칙
+v2 풀스크린 랜딩 디자인(홈 → 소개 → 문의 안내 → 관리 방식 → 서비스 지역 → 대표 인사 → 고객 후기 → 자주 묻는 질문 → 견적 문의)입니다.
+
+- `index.html` — 사이트 콘텐츠, 검색·공유 메타데이터, 구조화 데이터
+- `styles.css` — 남색·흰색·파랑 테마, 섹션 스냅 스크롤, 반응형 스타일
+- `app.js` — 첫 화면 사진 슬라이드, 오른쪽 섹션 이동 점, 연락처 버튼, 후기 표시
+- `site-config.js` — 전화번호·대표자명·카카오톡 URL·사업자번호·서비스 지역·첫 화면 사진·후기 설정
+- `assets/pvc-logo.png`, `assets/pvc-logo-color.webp` — PVC 로고(흰색 / 컬러)
+- `assets/pyeongtaek-map-light.svg` — 평택시 서비스 지역 지도
+- `assets/owner-lee-youngmin.webp` — 대표 이영민 사진
+- `assets/pvc-stair-hero.webp`, `assets/pvc-care-detail.webp` — 첫 화면 임시 사진(실제 현장 사진으로 교체 예정)
+- `fonts/` — Pretendard 웹폰트(SIL Open Font License 1.1)
+- `robots.txt`, `sitemap.xml`, `favicon.svg`, `vercel.json`
 
 ## 사업 정보 설정
 
-`site-config.js`에서 실제 사업자 정보를 관리합니다. 비워둔 항목은 사이트에 표시되지 않습니다.
+`site-config.js`에서 관리합니다. 비워둔 항목은 사이트에 표시되지 않습니다.
 
-```js
-window.PVC_CONFIG = {
-  phone: '010-2954-3144',
-  owner: '이영민',
-  kakaoUrl: '',        // 비워두면 견적 버튼이 문자(SMS)로 연결됩니다
-  businessNumber: '',  // 입력하면 하단에 표시됩니다
-  serviceAreas: ['고덕동', '지제동']
-};
-```
-
-카카오톡 채널을 만들면 `kakaoUrl`에 채널 주소를 넣으세요. 버튼 문구가 자동으로 "카톡으로 견적 받기"로 바뀝니다.
+- `kakaoUrl`을 비워두면 견적 버튼이 파란색 "문자" 버튼으로 연결되고, 채널 주소를 넣으면 노란 카카오톡 버튼으로 바뀝니다.
+- `heroImages`에 첫 화면 사진 경로를 넣으면 5초마다 바뀝니다.
+- `reviews`에는 실제 고객 후기만 넣으세요. 비어 있으면 후기 섹션이 숨겨집니다.
 
 ## Vercel 자동 배포 연결
 
