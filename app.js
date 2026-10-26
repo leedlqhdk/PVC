@@ -32,7 +32,11 @@
     setText('[data-quote-channel]', '문자');
     setText('[data-quote-channel-name]', '문자');
   }
-  setText('[data-biz-number]', businessNumber ? ` · 사업자등록번호 ${businessNumber}` : '');
+  const address = String(config.address || '').trim();
+  document.querySelectorAll('[data-biz-number-plain]').forEach((el) => { if (businessNumber) el.textContent = businessNumber; else el.closest('div').hidden = true; });
+  document.querySelectorAll('[data-address]').forEach((el) => { if (address) el.textContent = address; else el.closest('div').hidden = true; });
+  const year = document.getElementById('footer-year');
+  if (year) year.textContent = String(new Date().getFullYear());
   if (serviceAreas.length) setText('[data-area-short]', serviceAreas.map((a) => a.replace(/동$/, '')).join('·'));
 
   // 히어로 슬라이드
@@ -178,6 +182,23 @@
     });
   }
 
+  // 상단 로고 — 아래 섹션 배경에 맞춰 색 전환, 마지막 견적 문의 섹션에서는 숨김
+  const header = document.getElementById('site-header');
+  function updateHeader() {
+    if (!header) return;
+    const probe = window.scrollY + header.offsetHeight / 2;
+    const list = Array.from(document.querySelectorAll('main > section, main > footer')).filter((el) => !el.hidden);
+    let under = list[0];
+    list.forEach((el) => { if (el.offsetTop <= probe) under = el; });
+    const hide = under.id === 'contact' || under.tagName === 'FOOTER';
+    header.classList.toggle('is-hidden', hide);
+    header.classList.toggle('on-light', !under.hasAttribute('data-dark'));
+    header.classList.toggle('past-hero', under.id !== 'home');
+  }
+  window.addEventListener('scroll', updateHeader, { passive: true });
+  window.addEventListener('resize', updateHeader);
+  updateHeader();
+
   // 오른쪽 섹션 이동 점
   const dotNav = document.getElementById('section-dots');
   const sections = Array.from(document.querySelectorAll('main > section')).filter((s) => !s.hidden);
@@ -198,6 +219,7 @@
       sections.forEach((s, k) => { if (s.offsetTop <= y) active = k; });
       buttons.forEach((b, k) => b.setAttribute('aria-current', String(k === active)));
       dotNav.classList.toggle('on-dark', sections[active].hasAttribute('data-dark'));
+      updateHeader();
     };
     window.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
