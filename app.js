@@ -139,14 +139,30 @@
   }
   const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   if (finePointer) {
+    // 휠 값은 브라우저마다 단위가 달라(파이어폭스는 줄 단위) 픽셀로 맞춘 뒤,
+    // 작은 움직임도 모아서 일정량이 되면 한 화면 이동
+    let wheelSum = 0;
+    let wheelIdle;
     window.addEventListener('wheel', (e) => {
       if (e.ctrlKey || Math.abs(e.deltaY) < Math.abs(e.deltaX) || document.querySelector('dialog[open]')) return;
       e.preventDefault();
-      if (animating || performance.now() < lockUntil || Math.abs(e.deltaY) < 4) {
-        if (!animating) lockUntil = Math.max(lockUntil, performance.now() + 120);
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? window.innerHeight : 1;
+      const dy = e.deltaY * unit;
+      if (animating || performance.now() < lockUntil) {
+        // 이동 중·직후의 관성 스크롤은 무시 (관성이 이어지는 동안 잠금 연장)
+        if (!animating) lockUntil = Math.max(lockUntil, performance.now() + 150);
+        wheelSum = 0;
         return;
       }
-      scrollToY(pageTarget(e.deltaY > 0 ? 1 : -1));
+      if (wheelSum && Math.sign(dy) !== Math.sign(wheelSum)) wheelSum = 0;
+      wheelSum += dy;
+      clearTimeout(wheelIdle);
+      wheelIdle = setTimeout(() => { wheelSum = 0; }, 220);
+      if (Math.abs(wheelSum) >= 40) {
+        const dir = wheelSum > 0 ? 1 : -1;
+        wheelSum = 0;
+        scrollToY(pageTarget(dir));
+      }
     }, { passive: false });
     window.addEventListener('keydown', (e) => {
       if (document.querySelector('dialog[open]')) return;
