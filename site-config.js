@@ -5,7 +5,7 @@
 window.PVC_CONFIG = {
   phone: '010-2954-3144',
   owner: '이영민',
-  kakaoUrl: '', // 예: 'https://pf.kakao.com/_채널주소' — 비워두면 견적 버튼이 문자(SMS)로 연결됩니다
+  kakaoUrl: 'https://pf.kakao.com/_xedxdWX', // 카카오톡 채널 — 비워두면 견적 버튼이 문자(SMS)로 연결됩니다
   businessNumber: '799-43-01289',
   address: '경기도 평택시 죽백4로 60 (죽백동)',
   serviceAreas: ['고덕동', '지제동'], // 현재 관리 중인 지역
