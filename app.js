@@ -68,10 +68,21 @@
       imgs.forEach((img, i) => img.classList.toggle('is-on', i === k));
       dots.forEach((d, i) => d.setAttribute('aria-current', String(i === k)));
     }
+    let heroVisible = true;
     function start() {
       clearInterval(timer);
-      if (imgs.length > 1) timer = setInterval(() => show((current + 1) % imgs.length), 5000);
+      if (imgs.length > 1 && heroVisible && !document.hidden) timer = setInterval(() => show((current + 1) % imgs.length), 5000);
     }
+    // 첫 화면이 안 보이거나 탭이 숨겨지면 슬라이드·확대 효과를 멈춰 스크롤 부담을 줄임
+    const heroSec = slides.closest('section');
+    if ('IntersectionObserver' in window && heroSec) {
+      new IntersectionObserver(([e]) => {
+        heroVisible = e.isIntersecting;
+        heroSec.classList.toggle('is-paused', !heroVisible);
+        start();
+      }).observe(heroSec);
+    }
+    document.addEventListener('visibilitychange', start);
     show(0);
     start();
   }
@@ -107,15 +118,15 @@
     const dist = target - start;
     if (Math.abs(dist) < 2) return;
     if (reduceMotion) { window.scrollTo(0, target); return; }
-    const duration = Math.min(1100, 650 + Math.abs(dist) * 0.25);
-    const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+    const duration = Math.min(850, 520 + Math.abs(dist) * 0.15);
+    const ease = (t) => 1 - Math.pow(1 - t, 4); // 빠르게 출발해 부드럽게 멈춤
     const t0 = performance.now();
     animating = true;
     const step = (now) => {
       const t = Math.min(1, (now - t0) / duration);
       window.scrollTo(0, start + dist * ease(t));
       if (t < 1) requestAnimationFrame(step);
-      else { animating = false; lockUntil = performance.now() + 450; }
+      else { animating = false; lockUntil = performance.now() + 300; }
     };
     requestAnimationFrame(step);
   }
@@ -214,21 +225,48 @@
     document.querySelectorAll('[data-cert]').forEach((btn) => btn.addEventListener('click', () => window.open(btn.dataset.cert, '_blank')));
   }
 
+  // 지도 불빛 — 화면에 보일 때만 움직임
+  const mapFrame = document.querySelector('.map-frame');
+  if (mapFrame && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => mapFrame.classList.toggle('is-paused', !e.isIntersecting)).observe(mapFrame);
+  }
+
   // 상단 로고 — 아래 섹션 배경에 맞춰 색 전환, 마지막 견적 문의 섹션에서는 숨김
   const header = document.getElementById('site-header');
+  // 섹션 위치는 크기가 바뀔 때만 다시 계산하고, 스크롤 중에는 프레임당 한 번만 갱신
+  const pageEls = Array.from(document.querySelectorAll('main > section, main > footer')).filter((el) => !el.hidden);
+  let pageTops = [];
+  let headerHalf = 0;
+  const measure = () => {
+    pageTops = pageEls.map((el) => el.offsetTop);
+    headerHalf = header ? header.offsetHeight / 2 : 0;
+  };
+  let lastUnder = null;
   function updateHeader() {
     if (!header) return;
-    const probe = window.scrollY + header.offsetHeight / 2;
-    const list = Array.from(document.querySelectorAll('main > section, main > footer')).filter((el) => !el.hidden);
-    let under = list[0];
-    list.forEach((el) => { if (el.offsetTop <= probe) under = el; });
-    const hide = under.id === 'contact' || under.tagName === 'FOOTER';
-    header.classList.toggle('is-hidden', hide);
+    const probe = window.scrollY + headerHalf;
+    let k = 0;
+    for (let i = 0; i < pageTops.length; i++) if (pageTops[i] <= probe) k = i;
+    const under = pageEls[k];
+    if (under === lastUnder) return;
+    lastUnder = under;
+    header.classList.toggle('is-hidden', under.id === 'contact' || under.tagName === 'FOOTER');
     header.classList.toggle('on-light', !under.hasAttribute('data-dark'));
     header.classList.toggle('past-hero', under.id !== 'home');
   }
-  window.addEventListener('scroll', updateHeader, { passive: true });
-  window.addEventListener('resize', updateHeader);
+  const scrollHooks = [updateHeader];
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => { ticking = false; scrollHooks.forEach((fn) => fn()); });
+  };
+  const onResize = () => { measure(); lastUnder = null; scrollHooks.forEach((fn) => fn()); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onResize);
+  window.addEventListener('load', onResize);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(onResize);
+  measure();
   updateHeader();
 
   // 오른쪽 섹션 이동 점
@@ -245,16 +283,21 @@
       dotNav.appendChild(b);
       return b;
     });
-    const update = () => {
+    let secTops = [];
+    let lastActive = -1;
+    const update = (remeasure) => {
+      if (remeasure === true || !secTops.length) { secTops = sections.map((s) => s.offsetTop); lastActive = -1; }
       const y = window.scrollY + window.innerHeight / 2;
       let active = 0;
-      sections.forEach((s, k) => { if (s.offsetTop <= y) active = k; });
+      for (let k = 0; k < secTops.length; k++) if (secTops[k] <= y) active = k;
+      if (active === lastActive) return;
+      lastActive = active;
       buttons.forEach((b, k) => b.setAttribute('aria-current', String(k === active)));
       dotNav.classList.toggle('on-dark', sections[active].hasAttribute('data-dark'));
-      updateHeader();
     };
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
-    update();
+    scrollHooks.push(update);
+    window.addEventListener('resize', () => update(true));
+    window.addEventListener('load', () => update(true));
+    update(true);
   }
 })();
