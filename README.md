@@ -10,7 +10,7 @@ v2 풀스크린 랜딩 디자인(홈 → 소개 → 문의 안내 → 관리 방
 - `styles.css` — 남색·흰색·파랑 테마, 섹션 스냅 스크롤, 반응형 스타일
 - `app.js` — 첫 화면 사진 슬라이드, 오른쪽 섹션 이동 점, 연락처 버튼, 후기 표시
 - `site-config.js` — 전화번호·대표자명·카카오톡 URL·사업자번호·서비스 지역·첫 화면 사진·후기 설정
-- `assets/pvc-logo.png`, `assets/pvc-logo-color.webp` — PVC 로고(흰색 / 컬러)
+- `assets/pvc-logo-v2-white.webp`, `assets/pvc-logo-v2-color.webp` (+ `.png`) — PVC 로고(어두운 배경용 흰색 / 밝은 배경용 컬러)
 - `assets/pyeongtaek-map-light.svg` — 평택시 서비스 지역 지도
 - `assets/owner-lee-youngmin.webp` — 대표 이영민 사진
 - `assets/cert-*.webp` — 대표 자격증 사진(생년월일·자격번호 가림, 민간자격 등록번호는 표시)
